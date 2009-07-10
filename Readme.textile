@@ -37,7 +37,7 @@ Firstly, if you stick to the standard bake actions (index, edit, delete, view, n
 
 This will give you the following routes
 
-| _.route | _.controller | _.action | _.resulting_url |
+| _. route | _. controller | _. action | _. resulting_url |
 | users_path | users | index | /users/ |
 | edit_user_path(3) | users | edit | /users/edit/3 |
 | new_user_path | users | new | /users/new |
@@ -48,7 +48,7 @@ You're most likely asking why "path" has to be appended to each NamedRoute, well
 so for the last example, the output will be as follows
 
 
-| _.route | _.controller | _.action | _.resulting_url |
+| _. route | _. controller | _. action | _. resulting_url |
 | users_url | users | index | http://domain.com/users/ |
 | edit_user_url(3) | users | edit | http://domain.com/users/edit/3 |
 | new_user_url | users | new | http://domain.com/users/new |
@@ -65,7 +65,7 @@ lets say for instance that we have "login" and "logout" actions that belong to t
 
 We would then have a the following routes
 
-| ._route | ._controller | ._action | ._resulting_url |
+| ._ route | ._ controller | ._ action | ._ resulting_url |
 | login_path | users | login | /users/login |
 | logout_path | users | logout | /users/logout |
 
@@ -83,7 +83,7 @@ So for example,
   ));
 
 We would end up with
-| ._route | ._controller | ._action | ._resulting_url |
+| ._ route | ._ controller | ._ action | ._ resulting_url |
 | login_path | users | login | /login |
 
 
