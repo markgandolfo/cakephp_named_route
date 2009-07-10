@@ -41,7 +41,7 @@ This will give you the following routes
 | users_path | users | index | /users/ |
 | edit_user_path(3) | users | edit | /users/edit/3 |
 | new_user_path | users | new | /users/new |
-| delete_user_path(1) | users | delete | /users/delete/3 |
+| delete_user_path(1) | users | delete | /users/delete/1 |
 | view_user_path(1) | users | view | /users/view/1 |
 
 You're most likely asking why "path" has to be appended to each NamedRoute, well its because its interchangeable with "url" to append the host to the start
@@ -69,7 +69,8 @@ We would then have a the following routes
 | login_path | users | login | /users/login |
 | logout_path | users | logout | /users/logout |
 
-.h3 What about if I have custom routes set up in my routes.php file?
+h3. What about if I have custom routes set up in my routes.php file?
+
 We take care of that, by referencing the controller/action to the routes.php file and finding the correct url.
 
 So for example,
@@ -102,7 +103,8 @@ If we wanted to edit user whose id = 1
 @url('edit_user_path(1)')@
 
 If you wanted to get to the index (list all users)
-# Note that the index is plural (users), not (user)
+* Note that the index is plural (users), not (user)
+
 @url('users_path')@
 
 If you wanted to do go to the admin users index (note the . seperation between the prefix and named route)
@@ -111,13 +113,16 @@ which will return @/admin/users/@
 
 You can replace admin with anything else, i.e. @url('sales.users_path')@ just as long as you have the prefix set up in your routes.php file.
 
-.h3 So sum it up for me
+h3. So sum it up for me
+
 Ok well, to put it simply, in your @route.php@ file, add what you want the user to see
 In your NamedRoute setup, add what you want to write.
 
-.h3 So why did you write this?
+h3. So why did you write this?
+
 I moved a few actions from one controller to the next, and links were scattered everywhere through out the site. Coming from Rails, I knew how namedRoutes would of made sure I didn't have this problem, so I set out to recreate the functionality.
 
-.h3 Bugs/Feautres we should know about?
+h3. Bugs/Feautres we should know about?
+
 None that I know of, but I'm sure you guys and girls out there will let me know when you find something.
 
