@@ -1,0 +1,69 @@
+h2. CakePHP Named Routes
+
+CakePHP although it allows for custom routes to change the URL in the users address bar, there wasn't a suitable solution for developers to have "aliases" for the routes. Inspired by Ruby on Rails' named routes CakePHP Named Routes was created.
+
+h3. So Seriously, what is it?
+
+It allows for developers to give an alias to their controllers and actions in a simply and intuitive kind of way. For example, previously if we wanted to link to a the users controller and edit action, we would have to write
+
+@<?= $html->link('Edit User', array('controller' => 'users', 'action' => 'edit', 5)) ?>@
+
+With some simply setup of NamedRoute
+
+@<?= $html->link('Edit User', url('edit_user_path(5)')); ?>@
+
+The nice thing about this is edit_user_path refers back to a controller and action defined once elsewhere. If you've ever had to change the url, or move an action into another controller you'll understand the headaches that it can cause.
+
+h3. Ok, but how do I use it?
+
+Well quiet simply really.
+First download and move @named_route.php@ into your @app/config@ directory.
+
+Next in your bootstrap (or wherever you want to) start setting things up.
+
+You'll need to include in your bootstrap @config('named_route');@ to ensure the config file gets loaded.
+
+NamedRoute offers a helper function called @set@ to define controller actions, and map them to named routes.
+There are two ways to do this..
+
+Firstly, if you stick to the standard bake actions (index, edit, delete, view, new) then you can simply do a
+@NamedRoute::set(array('users' => array('controller' => 'users') ));@
+
+This will give you the following routes
+
+
+| ._route | ._controller | ._action | ._resulting_url |
+| users_path | users | index | /users/ |
+| edit_user_path(3) | users | edit | /users/edit/3 |
+| new_user_path | users | new | /users/new |
+| delete_user_path(1) | users | delete | /users/delete/3 |
+| view_user_path(1) | users | view | /users/view/1 |
+
+
+You're most likely asking why "path" has to be appended to each NamedRoute, well its because its interchangeable with "url" to append the host to the start
+so for the last example, the output will be as follows
+
+
+| ._route | ._controller | ._action | ._resulting_url |
+| users_url | users | index | http://domain.com/users/ |
+| edit_user_url(3) | users | edit | http://domain.com/users/edit/3 |
+| new_user_url | users | new | http://domain.com/users/new |
+| delete_user_url(1) | users | delete | http://domain.com/users/delete/3 |
+| view_user_url(1) | users | view | http://domain.com/users/view/1 |
+
+
+If your bucking the trend and giving your controller different action names then you have to write a little bit more code,
+lets say for instance that we have "login" and "logout" actions that belong to the "users" controller, your namedroute will look like this
+
+
+  NamedRoute::set(array(
+    'login' => array('controller' => 'users', 'action' => 'login'),
+    'logout' => array('controller' => 'users', 'action' => 'logout')
+  ));
+
+We would then have a the following routes
+
+| ._route | ._controller | ._action | ._resulting_url |
+| login_path | users | login | /users/login |
+| logout_path | users | logout | /users/logout |
+
