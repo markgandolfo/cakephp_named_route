@@ -14,14 +14,20 @@ With some simply setup of NamedRoute
 
 The nice thing about this is edit_user_path refers back to a controller and action defined once elsewhere. If you've ever had to change the url, or move an action into another controller you'll understand the headaches that it can cause.
 
+h3. Doesn't routes.php do this sort of thing?
+
+The routes.php file allows you to alias the address in the users browser, but we the lowly developers still have to type long verbose lines of code to reference the controller, actions.
+NamedRoute works along side (actually referencing the routes.php file) to bring the seperation that routes.php brings to the browser, to the developer.
+
 h3. Ok, but how do I use it?
 
 Well quiet simply really.
 First download and move @named_route.php@ into your @app/config@ directory.
+You'll need to include in your bootstrap @config('named_route');@ to ensure the config file gets loaded.
 
 Next in your bootstrap (or wherever you want to) start setting things up.
 
-You'll need to include in your bootstrap @config('named_route');@ to ensure the config file gets loaded.
+h4. Setting up your named routes
 
 NamedRoute offers a helper function called @set@ to define controller actions, and map them to named routes.
 There are two ways to do this..
@@ -31,30 +37,26 @@ Firstly, if you stick to the standard bake actions (index, edit, delete, view, n
 
 This will give you the following routes
 
-
-| ._route | ._controller | ._action | ._resulting_url |
+| _.route | _.controller | _.action | _.resulting_url |
 | users_path | users | index | /users/ |
 | edit_user_path(3) | users | edit | /users/edit/3 |
 | new_user_path | users | new | /users/new |
 | delete_user_path(1) | users | delete | /users/delete/3 |
 | view_user_path(1) | users | view | /users/view/1 |
 
-
 You're most likely asking why "path" has to be appended to each NamedRoute, well its because its interchangeable with "url" to append the host to the start
 so for the last example, the output will be as follows
 
 
-| ._route | ._controller | ._action | ._resulting_url |
+| _.route | _.controller | _.action | _.resulting_url |
 | users_url | users | index | http://domain.com/users/ |
 | edit_user_url(3) | users | edit | http://domain.com/users/edit/3 |
 | new_user_url | users | new | http://domain.com/users/new |
 | delete_user_url(1) | users | delete | http://domain.com/users/delete/3 |
 | view_user_url(1) | users | view | http://domain.com/users/view/1 |
 
-
 If your bucking the trend and giving your controller different action names then you have to write a little bit more code,
 lets say for instance that we have "login" and "logout" actions that belong to the "users" controller, your namedroute will look like this
-
 
   NamedRoute::set(array(
     'login' => array('controller' => 'users', 'action' => 'login'),
@@ -66,4 +68,56 @@ We would then have a the following routes
 | ._route | ._controller | ._action | ._resulting_url |
 | login_path | users | login | /users/login |
 | logout_path | users | logout | /users/logout |
+
+.h3 What about if I have custom routes set up in my routes.php file?
+We take care of that, by referencing the controller/action to the routes.php file and finding the correct url.
+
+So for example,
+
+  #routes.php
+  Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+
+  #bootstrap (namedroutes set)
+  NamedRoute::set(array(
+    'login' => array('controller' => 'users', 'action' => 'login')
+  ));
+
+We would end up with
+| ._route | ._controller | ._action | ._resulting_url |
+| login_path | users | login | /login |
+
+
+h4. How to use named routes in your views or controllers? (or anywhere)
+
+Its ever so simply! All you need to do is use the "url" alias function to retrieve the url for the named route.
+For example,
+
+Based on the above examples, if we wanted to get the login_path we would simple write
+@url('login_path')@
+
+If we wanted the url
+@url('login_url')@
+
+If we wanted to edit user whose id = 1
+@url('edit_user_path(1)')@
+
+If you wanted to get to the index (list all users)
+# Note that the index is plural (users), not (user)
+@url('users_path')@
+
+If you wanted to do go to the admin users index (note the . seperation between the prefix and named route)
+@url('admin.users_path')@
+which will return @/admin/users/@
+
+You can replace admin with anything else, i.e. @url('sales.users_path')@ just as long as you have the prefix set up in your routes.php file.
+
+.h3 So sum it up for me
+Ok well, to put it simply, in your @route.php@ file, add what you want the user to see
+In your NamedRoute setup, add what you want to write.
+
+.h3 So why did you write this?
+I moved a few actions from one controller to the next, and links were scattered everywhere through out the site. Coming from Rails, I knew how namedRoutes would of made sure I didn't have this problem, so I set out to recreate the functionality.
+
+.h3 Bugs/Feautres we should know about?
+None that I know of, but I'm sure you guys and girls out there will let me know when you find something.
 
