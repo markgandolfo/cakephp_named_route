@@ -51,6 +51,7 @@ class NamedRoute {
 	 */
 	static function set($route) {
 		$_this = NamedRoute::getInstance();
+
 		foreach($route as $namedRoute => $namedRouteOptions) {
 			if(( isset($namedRouteOptions['controller']) ) && ( !isset($namedRouteOptions['action']) )) {
 				$controller = $namedRouteOptions['controller'];
@@ -186,14 +187,17 @@ class NamedRoute {
 		// Get either NamedRoute or path information from the route, pull it out and fill in the rest of the information array
 		$tokenizedRoute = String::tokenize($route, '_');
 
-		switch ($tokenizedRoute[count($tokenizedRoute) - 1 ]) {
-			case 'url':
-				$routeInformation['url'] = true;
-			break;
-			case 'path':
-				$routeInformation['path'] = true;
-			break;
-		}
+		//submitted by radar
+		$routeInformation[$tokenizedRoute[count($tokenizedRoute) - 1]] = true;
+
+#		switch ($tokenizedRoute[count($tokenizedRoute) - 1 ]) {
+#			case 'url':
+#				$routeInformation['url'] = true;
+#			break;
+#			case 'path':
+#				$routeInformation['path'] = true;
+#			break;
+#		}
 		unset($tokenizedRoute[count($tokenizedRoute) - 1 ]);
 
 		// the rest must be the action, so store it in the information array
@@ -211,9 +215,42 @@ class NamedRoute {
 	 * print_r(NamedRoute::debug());
 	 *
 	 */
-	static function debug() {
+	public static function debug() {
 		$_this = NamedRoute::getInstance();
 		return $_this;
+	}
+
+	/**
+	 * Returns a list of routes in a table format to quickly get a snapshot of your current named routes
+	 *
+	 * @author Mark Gandolfo
+	 * @return String a HTML table of named routes and associated routes
+	 * @example
+	 *
+	 * print_r(NamedRoute::routes());
+	 *
+	 * Output is in HTML (just printed)
+	 *
+	 * Route	Url				Controller		Action
+	 * root		/home_page/		home_page		index
+	 * login	/users/login/	users			login
+	 *
+	 */
+	public static function routes() {
+		$_this = NamedRoute::getInstance();
+
+		$table = '<table>';
+		$table .=  '<tr><th>Route</th><th>Url</th><th>Controller</th><th>Action</th></tr>';
+
+		foreach($_this->routes as $route => $var) {
+			$table .= "<tr><td>" . $route . "</td>";
+			$table .= "<td>" . Router::url( $var ) . "</td>";
+			$table .= "<td>" . $var['controller'] . "</td>";
+			$table .= "<td>" . $var['action'] . "</td></tr>";
+		}
+		$table .= '</table>';
+
+		return $table;
 	}
 }
 

@@ -118,6 +118,30 @@ h3. So sum it up for me
 Ok well, to put it simply, in your @route.php@ file, add what you want the user to see
 In your NamedRoute setup, add what you want to write.
 
+h3. Debugging and relevant output
+
+There are methods which will assist in debugging / building your named routes.
+
+The first is @NamedRoute::debug()@ which will output the NamedRoute object. This is usefull if you want to see how the routes are stored
+The second is @NamedRoute::routes()@ which will output a HTML table, showing all of the named routes, the corresponding url from the routes.php file, and the controller and action associated
+
+An example output of @NamedRoute::routes()@
+
+|_. Route|._Url|._Controller|._Action|
+|root|/home_page/|home_page|index|
+|login|/users/login/|users	login|
+|logout|/users/logout/|users|logout|
+|users|/users/|users|index|
+|homes|/homes/|homes|index|
+|view_user|/users/view/|users|view|
+|add_user|/users/add/|users|add|
+|edit_user|/users/edit/|users|edit|
+|delete_user|/users/delete/|users|delete|
+|view_home|/homes/view/|homes|view|
+|add_home|/homes/add/|homes|add|
+|edit_home|/homes/edit/|homes|edit|
+|delete_home|/homes/delete/|homes|delete|
+
 h3. So why did you write this?
 
 I moved a few actions from one controller to the next, and links were scattered everywhere through out the site. Coming from Rails, I knew how namedRoutes would of made sure I didn't have this problem, so I set out to recreate the functionality.
