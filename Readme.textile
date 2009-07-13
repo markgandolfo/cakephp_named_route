@@ -130,7 +130,7 @@ The second is @NamedRoute::routes()@ which will output a HTML table, showing all
 
 An example output of @NamedRoute::routes()@
 
-|_. Route|._Url|._Controller|._Action|
+|_. Route|._ Url|._ Controller|._ Action|
 |root|/home_page/|home_page|index|
 |login|/users/login/|users	login|
 |logout|/users/logout/|users|logout|
