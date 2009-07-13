@@ -75,15 +75,16 @@ We take care of that, by referencing the controller/action to the routes.php fil
 
 So for example,
 
-  //routes.php
+  routes.php
   Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 
-  //bootstrap (namedroutes set)
+  bootstrap (namedroutes set)
   NamedRoute::set(array(
     'login' => array('controller' => 'users', 'action' => 'login')
   ));
 
 We would end up with
+
 |_. Route|_. Controller|_. Action|_. Resulting_url|
 | login_path | users | login | /login |
 
