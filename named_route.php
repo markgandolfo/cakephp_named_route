@@ -1,5 +1,5 @@
 <?php
-require_once(LIBS . 'router.php');
+App::uses('Router', 'Cake.Routing');
 /**
  * gets a named param
  *
